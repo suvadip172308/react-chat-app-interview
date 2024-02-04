@@ -1,9 +1,11 @@
+interface User {
+  username: string;
+  color: string;
+}
+
 export interface ChatMessage {
   body: string;
-  user: {
-    username: string;
-    color: string;
-  };
+  user: User;
 }
 
 const chatData: ChatMessage[] = [
@@ -54,11 +56,11 @@ const pubSub = () => {
   const hOP = eventTypes.hasOwnProperty;
 
   return {
-    send: (type: EventType, message: any) => {
+    send: (type: EventType, message: ChatMessage) => {
       if (!hOP.call(eventTypes, type)) return;
 
       eventTypes[type].forEach((item: CallBack) => {
-        item(message !== undefined ? message : {});
+        item(message);
       });
     },
     on: (type: EventType, callback: CallBack) => {

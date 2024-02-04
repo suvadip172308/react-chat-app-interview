@@ -1,8 +1,14 @@
 import { chatSocketConnection, EventType } from "./chat";
 import "./App.css";
+import { useEffectOnce } from "./hooks";
 
 export default function App() {
-  // const socket = chatSocketConnection();
+  useEffectOnce(() => {
+    const socket = chatSocketConnection();
+    socket.on(EventType.ChatMessage, (data) => {
+      console.log(data);
+    });
+  }, []);
 
   return (
     <div className="w-screen h-screen flex flex-col bg-gray-100 p-2">
